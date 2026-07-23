@@ -1,0 +1,12 @@
+.vscode/**
+.gitignore
+src/**
+test/**
+tsconfig.json
+**/*.ts
+**/*.map
+out/test/**
+manual-test-user-data/**
+smoke-extensions/**
+node_modules/**
+*.vsix

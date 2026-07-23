@@ -1,0 +1,114 @@
+{
+  "name": "explorer-terminal-command",
+  "displayName": "资源管理器终端命令",
+  "description": "在资源管理器中右键单个文件或文件夹，在外部终端窗口中执行自定义命令。",
+  "version": "0.2.1",
+  "publisher": "chenjiamian",
+  "license": "MIT",
+  "homepage": "https://github.com/CHENJIAMIAN/vscode-explorer-terminal-command#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CHENJIAMIAN/vscode-explorer-terminal-command.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CHENJIAMIAN/vscode-explorer-terminal-command/issues"
+  },
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "terminal",
+    "explorer",
+    "powershell",
+    "command"
+  ],
+  "activationEvents": [
+    "onCommand:explorerTerminalCommand.run"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "explorerTerminalCommand.run",
+        "title": "在终端中执行命令...",
+        "icon": "$(terminal)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "explorerTerminalCommand.run",
+          "when": "resourceSet && !listMultiSelection",
+          "group": "navigation@20"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "explorerTerminalCommand.run",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "资源管理器终端命令",
+      "properties": {
+        "explorerTerminalCommand.terminal": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "pwsh",
+            "powershell",
+            "cmd",
+            "bash",
+            "custom"
+          ],
+          "enumDescriptions": [
+            "优先使用 PowerShell 7（pwsh）；Windows 上找不到时依次回退到 Windows PowerShell 和 CMD。",
+            "强制使用 PowerShell 7（pwsh）。",
+            "强制使用 Windows PowerShell。",
+            "强制使用 CMD。",
+            "强制使用 Bash。",
+            "使用 explorerTerminalCommand.customShellPath 指定的终端程序。"
+          ],
+          "description": "运行命令所使用的外部终端。"
+        },
+        "explorerTerminalCommand.customShellPath": {
+          "type": "string",
+          "default": "",
+          "description": "terminal 为 custom 时使用的 shell 可执行文件完整路径。"
+        },
+        "explorerTerminalCommand.customShellFamily": {
+          "type": "string",
+          "default": "powershell",
+          "enum": [
+            "powershell",
+            "cmd",
+            "posix"
+          ],
+          "enumDescriptions": [
+            "按 PowerShell 规则引用文件路径。",
+            "按 CMD 规则引用文件路径。",
+            "按 Bash、Zsh 等 POSIX shell 规则引用文件路径。"
+          ],
+          "description": "自定义 shell 使用的路径引用规则。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "npm run compile && node --test out/test/commandBuilder.test.js",
+    "package": "vsce package --no-dependencies --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/vscode": "1.107.0",
+    "@vscode/vsce": "^3.9.2",
+    "typescript": "^5.7.2"
+  }
+}
