@@ -3,7 +3,7 @@
   "displayName": "资源管理器终端命令",
   "description": "在资源管理器中右键单个文件或文件夹，在外部终端窗口中执行自定义命令。",
   "version": "0.2.1",
-  "publisher": "chenjiamian",
+  "publisher": "CHENJIAMIAN",
   "license": "MIT",
   "homepage": "https://github.com/CHENJIAMIAN/vscode-explorer-terminal-command#readme",
   "repository": {
