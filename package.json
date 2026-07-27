@@ -1,7 +1,7 @@
 {
   "name": "explorer-terminal-command",
-  "displayName": "资源管理器终端命令",
-  "description": "在资源管理器中右键单个文件或文件夹，在外部终端窗口中执行自定义命令。",
+  "displayName": "%extension.displayName%",
+  "description": "%extension.description%",
   "version": "0.2.1",
   "publisher": "CHENJIAMIAN",
   "license": "MIT",
@@ -16,6 +16,7 @@
   "engines": {
     "vscode": "^1.107.0"
   },
+  "l10n": "./l10n",
   "categories": [
     "Other"
   ],
@@ -33,7 +34,7 @@
     "commands": [
       {
         "command": "explorerTerminalCommand.run",
-        "title": "在终端中执行命令...",
+        "title": "%command.run.title%",
         "icon": "$(terminal)"
       }
     ],
@@ -53,7 +54,7 @@
       ]
     },
     "configuration": {
-      "title": "资源管理器终端命令",
+      "title": "%configuration.title%",
       "properties": {
         "explorerTerminalCommand.terminal": {
           "type": "string",
@@ -67,19 +68,19 @@
             "custom"
           ],
           "enumDescriptions": [
-            "优先使用 PowerShell 7（pwsh）；Windows 上找不到时依次回退到 Windows PowerShell 和 CMD。",
-            "强制使用 PowerShell 7（pwsh）。",
-            "强制使用 Windows PowerShell。",
-            "强制使用 CMD。",
-            "强制使用 Bash。",
-            "使用 explorerTerminalCommand.customShellPath 指定的终端程序。"
+            "%config.terminal.auto%",
+            "%config.terminal.pwsh%",
+            "%config.terminal.powershell%",
+            "%config.terminal.cmd%",
+            "%config.terminal.bash%",
+            "%config.terminal.custom%"
           ],
-          "description": "运行命令所使用的外部终端。"
+          "description": "%config.terminal.description%"
         },
         "explorerTerminalCommand.customShellPath": {
           "type": "string",
           "default": "",
-          "description": "terminal 为 custom 时使用的 shell 可执行文件完整路径。"
+          "description": "%config.customShellPath.description%"
         },
         "explorerTerminalCommand.customShellFamily": {
           "type": "string",
@@ -90,11 +91,11 @@
             "posix"
           ],
           "enumDescriptions": [
-            "按 PowerShell 规则引用文件路径。",
-            "按 CMD 规则引用文件路径。",
-            "按 Bash、Zsh 等 POSIX shell 规则引用文件路径。"
+            "%config.customShellFamily.powershell%",
+            "%config.customShellFamily.cmd%",
+            "%config.customShellFamily.posix%"
           ],
-          "description": "自定义 shell 使用的路径引用规则。"
+          "description": "%config.customShellFamily.description%"
         }
       }
     }

@@ -1,0 +1,19 @@
+{
+  "Select exactly one file or folder in Explorer before running this command.": "Select exactly one file or folder in Explorer before running this command.",
+  "Unable to read the selected resource. The terminal command was not run.": "Unable to read the selected resource. The terminal command was not run.",
+  "This command only supports files and folders.": "This command only supports files and folders.",
+  "The external terminal only supports local files and folders.": "The external terminal only supports local files and folders.",
+  "Run Command in Terminal": "Run Command in Terminal",
+  "The command will run in the \"{0}\" directory.": "The command will run in the \"{0}\" directory.",
+  "The path to \"{0}\" will be appended to the command.": "The path to \"{0}\" will be appended to the command.",
+  "For example: codex": "For example: codex",
+  "For example: cat": "For example: cat",
+  "Unable to start the external terminal: {0}": "Unable to start the external terminal: {0}",
+  "Enter a command.": "Enter a command.",
+  "Enter a single-line command.": "Enter a single-line command.",
+  "Set explorerTerminalCommand.customShellPath first.": "Set explorerTerminalCommand.customShellPath first.",
+  "No supported external terminal executable was found.": "No supported external terminal executable was found.",
+  "Terminal executable not found: {0}": "Terminal executable not found: {0}",
+  "The Windows command processor cmd.exe was not found.": "The Windows command processor cmd.exe was not found.",
+  "The command was started in an external terminal window.": "The command was started in an external terminal window."
+}

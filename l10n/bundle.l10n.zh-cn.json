@@ -1,0 +1,19 @@
+{
+  "Select exactly one file or folder in Explorer before running this command.": "请在资源管理器中只选择一个文件或文件夹后再运行此命令。",
+  "Unable to read the selected resource. The terminal command was not run.": "无法读取所选资源，未执行终端命令。",
+  "This command only supports files and folders.": "此命令仅支持文件或文件夹。",
+  "The external terminal only supports local files and folders.": "外部终端仅支持本地文件或文件夹。",
+  "Run Command in Terminal": "在终端中执行命令",
+  "The command will run in the \"{0}\" directory.": "命令将在“{0}”目录中执行。",
+  "The path to \"{0}\" will be appended to the command.": "命令会自动追加“{0}”的路径。",
+  "For example: codex": "例如：codex",
+  "For example: cat": "例如：cat",
+  "Unable to start the external terminal: {0}": "无法启动外部终端：{0}",
+  "Enter a command.": "请输入命令。",
+  "Enter a single-line command.": "请输入单行命令。",
+  "Set explorerTerminalCommand.customShellPath first.": "请先设置 explorerTerminalCommand.customShellPath。",
+  "No supported external terminal executable was found.": "未找到可用的外部终端程序。",
+  "Terminal executable not found: {0}": "未找到终端程序：{0}",
+  "The Windows command processor cmd.exe was not found.": "未找到 Windows 命令处理程序 cmd.exe。",
+  "The command was started in an external terminal window.": "已在外部终端窗口中启动命令。"
+}

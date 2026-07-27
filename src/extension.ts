@@ -43,7 +43,9 @@ async function runExplorerTerminalCommand(args: readonly unknown[]): Promise<voi
   const resources = getResourcesFromCommandArguments(args);
 
   if (resources.length !== 1) {
-    void vscode.window.showWarningMessage('请在资源管理器中只选择一个文件或文件夹后再运行此命令。');
+    void vscode.window.showWarningMessage(
+      vscode.l10n.t('Select exactly one file or folder in Explorer before running this command.'),
+    );
     return;
   }
 
@@ -53,7 +55,9 @@ async function runExplorerTerminalCommand(args: readonly unknown[]): Promise<voi
   try {
     fileType = (await vscode.workspace.fs.stat(resource)).type;
   } catch {
-    void vscode.window.showErrorMessage('无法读取所选资源，未执行终端命令。');
+    void vscode.window.showErrorMessage(
+      vscode.l10n.t('Unable to read the selected resource. The terminal command was not run.'),
+    );
     return;
   }
 
@@ -61,22 +65,24 @@ async function runExplorerTerminalCommand(args: readonly unknown[]): Promise<voi
   const isFile = (fileType & vscode.FileType.File) !== 0;
 
   if (!isDirectory && !isFile) {
-    void vscode.window.showWarningMessage('此命令仅支持文件或文件夹。');
+    void vscode.window.showWarningMessage(vscode.l10n.t('This command only supports files and folders.'));
     return;
   }
 
   if (resource.scheme !== 'file') {
-    void vscode.window.showWarningMessage('外部终端仅支持本地文件或文件夹。');
+    void vscode.window.showWarningMessage(
+      vscode.l10n.t('The external terminal only supports local files and folders.'),
+    );
     return;
   }
 
   const resourceName = getResourceName(resource);
   const command = await vscode.window.showInputBox({
-    title: '在终端中执行命令',
+    title: vscode.l10n.t('Run Command in Terminal'),
     prompt: isDirectory
-      ? `命令将在“${resourceName}”目录中执行。`
-      : `命令会自动追加“${resourceName}”的路径。`,
-    placeHolder: isDirectory ? '例如：codex' : '例如：cat',
+      ? vscode.l10n.t('The command will run in the "{0}" directory.', resourceName)
+      : vscode.l10n.t('The path to "{0}" will be appended to the command.', resourceName),
+    placeHolder: isDirectory ? vscode.l10n.t('For example: codex') : vscode.l10n.t('For example: cat'),
     ignoreFocusOut: true,
     validateInput: validateCommandInput,
   });
@@ -91,17 +97,19 @@ async function runExplorerTerminalCommand(args: readonly unknown[]): Promise<voi
     const terminalCommand = buildTerminalCommand(command, resourcePath, isDirectory, shell.shellFamily);
     await launchExternalTerminal(shell, terminalCommand, getWorkingDirectory(resource, isDirectory));
   } catch (error) {
-    void vscode.window.showErrorMessage(`无法启动外部终端：${getErrorMessage(error)}`);
+    void vscode.window.showErrorMessage(
+      vscode.l10n.t('Unable to start the external terminal: {0}', getErrorMessage(error)),
+    );
   }
 }
 
 function validateCommandInput(value: string): string | undefined {
   if (!value.trim()) {
-    return '请输入命令。';
+    return vscode.l10n.t('Enter a command.');
   }
 
   if (/\r|\n/.test(value)) {
-    return '请输入单行命令。';
+    return vscode.l10n.t('Enter a single-line command.');
   }
 
   return undefined;
@@ -149,7 +157,7 @@ async function resolveShell(): Promise<ShellResolution> {
   if (preference === 'custom') {
     const customShellPath = configuration.get<string>('customShellPath', '').trim();
     if (!customShellPath) {
-      throw new Error('请先设置 explorerTerminalCommand.customShellPath。');
+      throw new Error(vscode.l10n.t('Set explorerTerminalCommand.customShellPath first.'));
     }
 
     return {
@@ -175,7 +183,7 @@ async function resolveShell(): Promise<ShellResolution> {
 
     const posixShell = process.env.SHELL ?? await findExecutable('bash') ?? await findExecutable('sh');
     if (!posixShell) {
-      throw new Error('未找到可用的外部终端程序。');
+      throw new Error(vscode.l10n.t('No supported external terminal executable was found.'));
     }
 
     return { shellPath: posixShell, shellFamily: 'posix' };
@@ -184,7 +192,7 @@ async function resolveShell(): Promise<ShellResolution> {
   const executableName = getExecutableName(preference);
   const shellPath = await findExecutable(executableName);
   if (!shellPath) {
-    throw new Error(`未找到终端程序：${executableName}`);
+    throw new Error(vscode.l10n.t('Terminal executable not found: {0}', executableName));
   }
 
   return {
@@ -203,7 +211,7 @@ async function launchExternalTerminal(
   if (process.platform === 'win32') {
     const commandProcessor = process.env.ComSpec ?? await findExecutable('cmd.exe');
     if (!commandProcessor) {
-      throw new Error('未找到 Windows 命令处理程序 cmd.exe。');
+      throw new Error(vscode.l10n.t('The Windows command processor cmd.exe was not found.'));
     }
 
     await startDetachedProcess(
@@ -215,7 +223,9 @@ async function launchExternalTerminal(
     await startDetachedProcess(shell.shellPath, terminalArguments, cwd);
   }
 
-  void vscode.window.showInformationMessage('已在外部终端窗口中启动命令。');
+  void vscode.window.showInformationMessage(
+    vscode.l10n.t('The command was started in an external terminal window.'),
+  );
 }
 
 function startDetachedProcess(executable: string, args: readonly string[], cwd: string): Promise<void> {

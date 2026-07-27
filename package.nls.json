@@ -1,0 +1,18 @@
+{
+  "extension.displayName": "Explorer Terminal Command",
+  "extension.description": "Run a custom command in an external terminal window from a file or folder in Explorer.",
+  "command.run.title": "Run Command in External Terminal...",
+  "configuration.title": "Explorer Terminal Command",
+  "config.terminal.auto": "Prefer PowerShell 7 (pwsh); on Windows, fall back to Windows PowerShell and then CMD.",
+  "config.terminal.pwsh": "Always use PowerShell 7 (pwsh).",
+  "config.terminal.powershell": "Always use Windows PowerShell.",
+  "config.terminal.cmd": "Always use CMD.",
+  "config.terminal.bash": "Always use Bash.",
+  "config.terminal.custom": "Use the terminal executable specified by explorerTerminalCommand.customShellPath.",
+  "config.terminal.description": "The external terminal used to run commands.",
+  "config.customShellPath.description": "The full path to the shell executable used when terminal is custom.",
+  "config.customShellFamily.powershell": "Quote file paths using PowerShell rules.",
+  "config.customShellFamily.cmd": "Quote file paths using CMD rules.",
+  "config.customShellFamily.posix": "Quote file paths using POSIX shell rules such as Bash and Zsh.",
+  "config.customShellFamily.description": "The path quoting rules used by the custom shell."
+}

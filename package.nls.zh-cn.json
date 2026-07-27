@@ -1,0 +1,18 @@
+{
+  "extension.displayName": "资源管理器终端命令",
+  "extension.description": "在资源管理器中右键单个文件或文件夹，在外部终端窗口中执行自定义命令。",
+  "command.run.title": "在外部终端中执行命令...",
+  "configuration.title": "资源管理器终端命令",
+  "config.terminal.auto": "优先使用 PowerShell 7（pwsh）；Windows 上找不到时依次回退到 Windows PowerShell 和 CMD。",
+  "config.terminal.pwsh": "强制使用 PowerShell 7（pwsh）。",
+  "config.terminal.powershell": "强制使用 Windows PowerShell。",
+  "config.terminal.cmd": "强制使用 CMD。",
+  "config.terminal.bash": "强制使用 Bash。",
+  "config.terminal.custom": "使用 explorerTerminalCommand.customShellPath 指定的终端程序。",
+  "config.terminal.description": "运行命令所使用的外部终端。",
+  "config.customShellPath.description": "terminal 为 custom 时使用的 shell 可执行文件完整路径。",
+  "config.customShellFamily.powershell": "按 PowerShell 规则引用文件路径。",
+  "config.customShellFamily.cmd": "按 CMD 规则引用文件路径。",
+  "config.customShellFamily.posix": "按 Bash、Zsh 等 POSIX shell 规则引用文件路径。",
+  "config.customShellFamily.description": "自定义 shell 使用的路径引用规则。"
+}
