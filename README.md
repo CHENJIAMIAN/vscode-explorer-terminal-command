@@ -1,5 +1,12 @@
 # 资源管理器终端命令
 
+<!-- codex-github-rules:bilingual-summary -->
+> **中文简介**：从 VS Code 资源管理器在外部终端执行自定义命令
+
+> **English summary**: Run custom commands in an external terminal from VS Code Explorer
+
+---
+
 在 VS Code 资源管理器中右键单个文件或单个文件夹，选择“在终端中执行命令...”，输入命令后会打开一个独立的外部终端窗口执行。
 
 菜单只会在单选资源时显示，多选或右键空白处不会显示。
