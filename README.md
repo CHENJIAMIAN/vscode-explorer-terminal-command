@@ -1,3 +1,5 @@
+[English](./README.en.md)
+
 # 资源管理器终端命令
 
 <!-- codex-github-rules:bilingual-summary -->
