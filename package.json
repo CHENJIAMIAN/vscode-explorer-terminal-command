@@ -2,7 +2,7 @@
   "name": "explorer-terminal-command",
   "displayName": "%extension.displayName%",
   "description": "%extension.description%",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publisher": "CHENJIAMIAN",
   "license": "MIT",
   "homepage": "https://github.com/CHENJIAMIAN/vscode-explorer-terminal-command#readme",
@@ -36,6 +36,10 @@
         "command": "explorerTerminalCommand.run",
         "title": "%command.run.title%",
         "icon": "$(terminal)"
+      },
+      {
+        "command": "explorerTerminalCommand.clearCommandHistory",
+        "title": "%command.clearHistory.title%"
       }
     ],
     "menus": {
@@ -50,6 +54,9 @@
         {
           "command": "explorerTerminalCommand.run",
           "when": "false"
+        },
+        {
+          "command": "explorerTerminalCommand.clearCommandHistory"
         }
       ]
     },

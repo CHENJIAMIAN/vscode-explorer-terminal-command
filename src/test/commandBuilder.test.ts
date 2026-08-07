@@ -6,6 +6,7 @@ import {
   buildWindowsStartArguments,
   quoteShellArgument,
 } from '../commandBuilder';
+import { addCommandToHistory, getCommandHistory } from '../commandHistory';
 
 test('PowerShell 为带空格和单引号的路径正确引用', () => {
   assert.equal(
@@ -73,4 +74,16 @@ test('Windows 使用 start 显式创建新的外部终端窗口', () => {
       "cat 'D:\\项目\\A.js'",
     ],
   );
+});
+
+test('命令历史去重、提升最近命令并限制数量', () => {
+  assert.deepEqual(
+    addCommandToHistory(['git status', 'codex', 'git status'], 'codex', 2),
+    ['codex', 'git status'],
+  );
+});
+
+test('命令历史忽略无效的持久化数据', () => {
+  assert.deepEqual(getCommandHistory(['codex', '', 1, 'git status']), ['codex', 'git status']);
+  assert.deepEqual(getCommandHistory({}), []);
 });

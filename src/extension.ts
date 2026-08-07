@@ -8,8 +8,10 @@ import {
   buildWindowsStartArguments,
   type ShellFamily,
 } from './commandBuilder';
+import { addCommandToHistory, COMMAND_HISTORY_KEY, getCommandHistory } from './commandHistory';
 
 const COMMAND_ID = 'explorerTerminalCommand.run';
+const CLEAR_HISTORY_COMMAND_ID = 'explorerTerminalCommand.clearCommandHistory';
 const CONFIGURATION_SECTION = 'explorerTerminalCommand';
 const execFileAsync = promisify(execFile);
 
@@ -34,12 +36,19 @@ const executableCache = new Map<string, Promise<string | undefined>>();
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.commands.registerCommand(COMMAND_ID, async (...args: unknown[]) => {
-      await runExplorerTerminalCommand(args);
+      await runExplorerTerminalCommand(args, context);
+    }),
+    vscode.commands.registerCommand(CLEAR_HISTORY_COMMAND_ID, async () => {
+      await context.globalState.update(COMMAND_HISTORY_KEY, undefined);
+      void vscode.window.showInformationMessage(vscode.l10n.t('Command history cleared.'));
     }),
   );
 }
 
-async function runExplorerTerminalCommand(args: readonly unknown[]): Promise<void> {
+async function runExplorerTerminalCommand(
+  args: readonly unknown[],
+  context: vscode.ExtensionContext,
+): Promise<void> {
   const resources = getResourcesFromCommandArguments(args);
 
   if (resources.length !== 1) {
@@ -76,16 +85,7 @@ async function runExplorerTerminalCommand(args: readonly unknown[]): Promise<voi
     return;
   }
 
-  const resourceName = getResourceName(resource);
-  const command = await vscode.window.showInputBox({
-    title: vscode.l10n.t('Run Command in Terminal'),
-    prompt: isDirectory
-      ? vscode.l10n.t('The command will run in the "{0}" directory.', resourceName)
-      : vscode.l10n.t('The path to "{0}" will be appended to the command.', resourceName),
-    placeHolder: isDirectory ? vscode.l10n.t('For example: codex') : vscode.l10n.t('For example: cat'),
-    ignoreFocusOut: true,
-    validateInput: validateCommandInput,
-  });
+  const command = await promptForCommand(getCommandHistory(context.globalState.get<unknown>(COMMAND_HISTORY_KEY)));
 
   if (command === undefined) {
     return;
@@ -96,11 +96,50 @@ async function runExplorerTerminalCommand(args: readonly unknown[]): Promise<voi
     const resourcePath = resource.fsPath;
     const terminalCommand = buildTerminalCommand(command, resourcePath, isDirectory, shell.shellFamily);
     await launchExternalTerminal(shell, terminalCommand, getWorkingDirectory(resource, isDirectory));
+    await context.globalState.update(
+      COMMAND_HISTORY_KEY,
+      addCommandToHistory(getCommandHistory(context.globalState.get<unknown>(COMMAND_HISTORY_KEY)), command),
+    );
   } catch (error) {
     void vscode.window.showErrorMessage(
       vscode.l10n.t('Unable to start the external terminal: {0}', getErrorMessage(error)),
     );
   }
+}
+
+async function promptForCommand(history: readonly string[]): Promise<string | undefined> {
+  if (history.length === 0) {
+    return showCommandInput();
+  }
+
+  const options: Array<vscode.QuickPickItem & { readonly command?: string }> = [
+    { label: vscode.l10n.t('Enter a new command...') },
+    ...history.map((command) => ({ label: command, command })),
+  ];
+  const selected = await vscode.window.showQuickPick(
+    options,
+    {
+      title: vscode.l10n.t('Run Command in Terminal'),
+      placeHolder: vscode.l10n.t('Select a recent command or enter a new one.'),
+      ignoreFocusOut: true,
+    },
+  );
+
+  if (!selected) {
+    return undefined;
+  }
+
+  return selected.command ?? showCommandInput();
+}
+
+function showCommandInput(): Thenable<string | undefined> {
+  return vscode.window.showInputBox({
+    title: vscode.l10n.t('Run Command in Terminal'),
+    prompt: vscode.l10n.t('Enter the command to run in the external terminal.'),
+    placeHolder: vscode.l10n.t('For example: codex'),
+    ignoreFocusOut: true,
+    validateInput: validateCommandInput,
+  });
 }
 
 function validateCommandInput(value: string): string | undefined {
@@ -144,10 +183,6 @@ function getParentUri(resource: vscode.Uri): vscode.Uri {
 
 function getWorkingDirectory(resource: vscode.Uri, isDirectory: boolean): string {
   return (isDirectory ? resource : getParentUri(resource)).fsPath;
-}
-
-function getResourceName(resource: vscode.Uri): string {
-  return resource.path.split('/').filter(Boolean).at(-1) ?? resource.fsPath;
 }
 
 async function resolveShell(): Promise<ShellResolution> {

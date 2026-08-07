@@ -2,6 +2,7 @@
   "extension.displayName": "Explorer Terminal Command",
   "extension.description": "Run a custom command in an external terminal window from a file or folder in Explorer.",
   "command.run.title": "Run Command in External Terminal...",
+  "command.clearHistory.title": "Explorer Terminal Command: Clear Command History",
   "configuration.title": "Explorer Terminal Command",
   "config.terminal.auto": "Prefer PowerShell 7 (pwsh); on Windows, fall back to Windows PowerShell and then CMD.",
   "config.terminal.pwsh": "Always use PowerShell 7 (pwsh).",

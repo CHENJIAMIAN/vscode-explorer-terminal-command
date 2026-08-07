@@ -2,6 +2,7 @@
   "extension.displayName": "资源管理器终端命令",
   "extension.description": "在资源管理器中右键单个文件或文件夹，在外部终端窗口中执行自定义命令。",
   "command.run.title": "在外部终端中执行命令...",
+  "command.clearHistory.title": "资源管理器终端命令：清除命令历史",
   "configuration.title": "资源管理器终端命令",
   "config.terminal.auto": "优先使用 PowerShell 7（pwsh）；Windows 上找不到时依次回退到 Windows PowerShell 和 CMD。",
   "config.terminal.pwsh": "强制使用 PowerShell 7（pwsh）。",
